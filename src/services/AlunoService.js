@@ -50,6 +50,11 @@ class AlunoService{
 
         async update(id, dados){
             await this.findUnique(id);
+
+        //body vazio ou sem nome/email: reaproveita o AlunoInvalidoError (400), pois são dados inválidos do aluno
+        if(!dados || (!dados.nome && !dados.email)){
+            throw new AlunoInvalidoError("Informe nome e/ou email para atualizar");
+        }
             
             const data = {};
             if(dados.nome){
