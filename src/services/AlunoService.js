@@ -56,11 +56,15 @@ class AlunoService{
         if(!dados || (!dados.nome && !dados.email)){
             throw new AlunoInvalidoError("Informe nome e/ou email para atualizar");
             
-            async delete(id){
+        async delete(id){
+        //aluno inexistente: reaproveita o AlunoNaoEncontradoError (404) lançado pelo findUnique
+        await this.findUnique(id);
+
         //DELETE FROM alunos WHERE id = ?
         await prisma.aluno.delete({
             where: {id: id}
         });
+    }
     }
         }
 
