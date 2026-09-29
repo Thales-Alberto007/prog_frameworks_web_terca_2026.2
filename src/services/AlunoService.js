@@ -48,23 +48,23 @@ class AlunoService{
         }
         return aluno;
 
-        async update(id, dados){
-            await this.findUnique(id);
+    async update(id, dados){
+        //aluno inexistente: reaproveita o AlunoNaoEncontradoError (404) lançado pelo findUnique
+        await this.findUnique(id);
 
         //body vazio ou sem nome/email: reaproveita o AlunoInvalidoError (400), pois são dados inválidos do aluno
         if(!dados || (!dados.nome && !dados.email)){
             throw new AlunoInvalidoError("Informe nome e/ou email para atualizar");
         }
-            
-            const data = {};
-            if(dados.nome){
+
+        const data = {};
+        if(dados.nome){
             data.nome = dados.nome;
         }
-            if(dados.email){
+        if(dados.email){
             data.email = dados.email;
         }
 
-        //UPDATE alunos SET ... WHERE id = ?
         try{
             //UPDATE alunos SET ... WHERE id = ?
             const aluno = await prisma.aluno.update({
