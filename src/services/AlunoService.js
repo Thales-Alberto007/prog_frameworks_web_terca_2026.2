@@ -65,11 +65,21 @@ class AlunoService{
         }
 
         //UPDATE alunos SET ... WHERE id = ?
-        const aluno = await prisma.aluno.update({
-            where: {id: id},
-            data: data
-        });
-        return aluno;
+        try{
+            //UPDATE alunos SET ... WHERE id = ?
+            const aluno = await prisma.aluno.update({
+                where: {id: id},
+                data: data
+            });
+            return aluno;
+        }catch(e){
+            //email é @unique: o Prisma lança o erro P2002 quando o email já existe
+            //reaproveita o AlunoInvalidoError, mas com status 409 (conflito)
+            if(e.code === "P2002"){
+                throw new AlunoInvalidoError("Email já cadastrado", 409);
+            }
+            throw e;
+        }
     }
     }
 }
