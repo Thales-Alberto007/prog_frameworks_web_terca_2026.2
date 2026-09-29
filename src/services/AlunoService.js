@@ -1,5 +1,6 @@
 const prisma = require("../databases/prisma");
 const AlunoInvalidoError = require("../errors/AlunoInvalidoError");
+const AlunoNaoEncontradoError = require("../errors/AlunoNaoEncontradoError");
 
 class AlunoService{
 
