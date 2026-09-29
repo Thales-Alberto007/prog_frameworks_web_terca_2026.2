@@ -21,7 +21,9 @@ class AlunoController{
         }catch(e){
             return response.status(e.statusCode).json({error: e.message});
         }
-            async findUnique(request, response){
+    }
+
+    async findUnique(request, response){
         try{
             const id = Number(request.params.id);
             const aluno = await alunoService.findUnique(id);
@@ -29,7 +31,9 @@ class AlunoController{
         }catch(e){
             return response.status(e.statusCode).json({error: e.message});
         }
-            async update(request, response){
+    }
+
+    async update(request, response){
         try{
             const id = Number(request.params.id);
             const aluno = await alunoService.update(id, request.body);
@@ -37,7 +41,9 @@ class AlunoController{
         }catch(e){
             return response.status(e.statusCode).json({error: e.message});
         }
-            async delete(request, response){
+    }
+
+    async delete(request, response){
         try{
             const id = Number(request.params.id);
             await alunoService.delete(id);
@@ -45,9 +51,6 @@ class AlunoController{
         }catch(e){
             return response.status(e.statusCode).json({error: e.message});
         }
-    }
-    }
-    }
     }
 }
 
