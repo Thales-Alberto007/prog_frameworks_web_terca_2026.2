@@ -42,6 +42,10 @@ class AlunoService{
         const aluno = await prisma.aluno.findUnique({
             where: {id: id}
         });
+            
+            if(!aluno){
+            throw new AlunoNaoEncontradoError();
+        }
         return aluno;
     }
 }
