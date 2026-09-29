@@ -55,6 +55,13 @@ class AlunoService{
         //body vazio ou sem nome/email: reaproveita o AlunoInvalidoError (400), pois são dados inválidos do aluno
         if(!dados || (!dados.nome && !dados.email)){
             throw new AlunoInvalidoError("Informe nome e/ou email para atualizar");
+            
+            async delete(id){
+        //DELETE FROM alunos WHERE id = ?
+        await prisma.aluno.delete({
+            where: {id: id}
+        });
+    }
         }
 
         const data = {};
