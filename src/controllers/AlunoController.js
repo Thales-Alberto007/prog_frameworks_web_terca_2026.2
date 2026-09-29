@@ -37,6 +37,15 @@ class AlunoController{
         }catch(e){
             return response.status(e.statusCode).json({error: e.message});
         }
+            async delete(request, response){
+        try{
+            const id = Number(request.params.id);
+            await alunoService.delete(id);
+            return response.status(204).send();
+        }catch(e){
+            return response.status(e.statusCode).json({error: e.message});
+        }
+    }
     }
     }
     }
