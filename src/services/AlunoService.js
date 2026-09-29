@@ -53,6 +53,9 @@ class AlunoService{
         if(dados.nome){
             data.nome = dados.nome;
         }
+            if(dados.email){
+            data.email = dados.email;
+        }
 
         //UPDATE alunos SET ... WHERE id = ?
         const aluno = await prisma.aluno.update({
