@@ -5,6 +5,10 @@ const AlunoNaoEncontradoError = require("../errors/AlunoNaoEncontradoError");
 class AlunoService{
 
     async findMany(page, pageSize, orderBy, order){
+        //direção diferente de asc/desc: usa a padrão (asc) para não quebrar o Prisma
+        if(order !== "asc" && order !== "desc"){
+            order = "asc";
+        }
         const ordenacao = {};
         ordenacao[orderBy] = order;
 
@@ -18,10 +22,6 @@ class AlunoService{
         const total = await prisma.aluno.count();
         return {alunos, total};
     }
-        //direção diferente de asc/desc: usa a padrão (asc) para não quebrar o Prisma
-        if(order !== "asc" && order !== "desc"){
-            order = "asc";
-        }
 
     async create(aluno){
         const {nome, email} = aluno;
@@ -37,16 +37,16 @@ class AlunoService{
         return novoAluno;
     }
 
-        async findUnique(id){
+    async findUnique(id){
         //SELECT * FROM alunos WHERE id = ?
         const aluno = await prisma.aluno.findUnique({
             where: {id: id}
         });
-            
-            if(!aluno){
+        if(!aluno){
             throw new AlunoNaoEncontradoError();
         }
         return aluno;
+    }
 
     async update(id, dados){
         //aluno inexistente: reaproveita o AlunoNaoEncontradoError (404) lançado pelo findUnique
@@ -55,17 +55,6 @@ class AlunoService{
         //body vazio ou sem nome/email: reaproveita o AlunoInvalidoError (400), pois são dados inválidos do aluno
         if(!dados || (!dados.nome && !dados.email)){
             throw new AlunoInvalidoError("Informe nome e/ou email para atualizar");
-            
-        async delete(id){
-        //aluno inexistente: reaproveita o AlunoNaoEncontradoError (404) lançado pelo findUnique
-        await this.findUnique(id);
-
-        //DELETE FROM alunos WHERE id = ?
-        await prisma.aluno.delete({
-            where: {id: id}
-        });
-    }
-    }
         }
 
         const data = {};
@@ -92,6 +81,15 @@ class AlunoService{
             throw e;
         }
     }
+
+    async delete(id){
+        //aluno inexistente: reaproveita o AlunoNaoEncontradoError (404) lançado pelo findUnique
+        await this.findUnique(id);
+
+        //DELETE FROM alunos WHERE id = ?
+        await prisma.aluno.delete({
+            where: {id: id}
+        });
     }
 }
 
