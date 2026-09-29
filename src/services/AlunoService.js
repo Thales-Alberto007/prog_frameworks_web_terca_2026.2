@@ -47,6 +47,20 @@ class AlunoService{
             throw new AlunoNaoEncontradoError();
         }
         return aluno;
+
+                async update(id, dados){
+        const data = {};
+        if(dados.nome){
+            data.nome = dados.nome;
+        }
+
+        //UPDATE alunos SET ... WHERE id = ?
+        const aluno = await prisma.aluno.update({
+            where: {id: id},
+            data: data
+        });
+        return aluno;
+    }
     }
 }
 
