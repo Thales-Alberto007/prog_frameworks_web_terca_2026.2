@@ -15,6 +15,10 @@ class AlunoService{
         });
         return alunos;
     }
+        //direção diferente de asc/desc: usa a padrão (asc) para não quebrar o Prisma
+        if(order !== "asc" && order !== "desc"){
+            order = "asc";
+        }
 
     async create(aluno){
         const {nome, email} = aluno;
