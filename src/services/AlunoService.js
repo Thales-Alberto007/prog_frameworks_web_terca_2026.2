@@ -13,7 +13,9 @@ class AlunoService{
             take: Number(pageSize),
             orderBy: ordenacao
         });
-        return alunos;
+        //SELECT COUNT(*) FROM alunos
+        const total = await prisma.aluno.count();
+        return {alunos, total};
     }
         //direção diferente de asc/desc: usa a padrão (asc) para não quebrar o Prisma
         if(order !== "asc" && order !== "desc"){
