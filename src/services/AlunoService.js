@@ -48,9 +48,11 @@ class AlunoService{
         }
         return aluno;
 
-                async update(id, dados){
-        const data = {};
-        if(dados.nome){
+        async update(id, dados){
+            await this.findUnique(id);
+            
+            const data = {};
+            if(dados.nome){
             data.nome = dados.nome;
         }
             if(dados.email){
