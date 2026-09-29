@@ -10,8 +10,8 @@ class AlunoController{
         order ||= "asc";
 
 
-        const alunos = await alunoService.findMany(page, pageSize, orderBy, order);
-        return response.status(200).json({alunos});
+        const {alunos, total} = await alunoService.findMany(page, pageSize, orderBy, order);
+        return response.status(200).json({alunos, total});
     }
 
     async create(request, response){
